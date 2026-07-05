@@ -3,61 +3,525 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gopal Solar 360 — Coming Soon</title>
+<title>Gopal Solar 360 | Residential &amp; Commercial Solar Solutions</title>
+<meta name="description" content="Gopal Solar 360 designs and installs premium solar power systems for homes and businesses. Cut your electricity bills up to 90% with clean, reliable solar energy.">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    color: #fff;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px;
+  :root{
+    --navy:#0b2540;
+    --navy-dark:#071b30;
+    --sun:#ffb703;
+    --sun-dark:#f08c00;
+    --leaf:#2e8b57;
+    --ink:#1a2733;
+    --muted:#5c6b7a;
+    --bg:#f6f9fc;
+    --card:#ffffff;
+    --radius:16px;
   }
-  .card {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 16px;
-    padding: 48px 32px;
-    max-width: 520px;
-    backdrop-filter: blur(6px);
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Segoe UI',Roboto,Arial,sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.6;
   }
-  h1 {
-    font-size: 2.2rem;
-    margin-bottom: 12px;
+  a{text-decoration:none;color:inherit;}
+  img,svg{max-width:100%;display:block;}
+  .container{max-width:1160px;margin:0 auto;padding:0 24px;}
+  section{padding:80px 0;}
+
+  /* Header */
+  header{
+    position:sticky;top:0;z-index:100;
+    background:rgba(11,37,64,0.96);
+    backdrop-filter:blur(6px);
   }
-  p {
-    font-size: 1.05rem;
-    line-height: 1.6;
-    opacity: 0.9;
-    margin-bottom: 24px;
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 24px;max-width:1160px;margin:0 auto;
   }
-  .badge {
-    display: inline-block;
-    background: #f9a825;
-    color: #1e3c72;
-    font-weight: bold;
-    padding: 6px 16px;
-    border-radius: 999px;
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
+  .logo{
+    display:flex;align-items:center;gap:10px;
+    font-weight:800;font-size:1.3rem;color:#fff;letter-spacing:.3px;
   }
-  footer {
-    margin-top: 32px;
-    font-size: 0.8rem;
-    opacity: 0.6;
+  .logo .dot{color:var(--sun);}
+  .nav-links{display:flex;gap:32px;align-items:center;}
+  .nav-links a{color:#dce6f0;font-weight:500;font-size:.95rem;transition:color .2s;}
+  .nav-links a:hover{color:var(--sun);}
+  .nav-cta{
+    background:var(--sun);color:var(--navy-dark);padding:10px 22px;
+    border-radius:999px;font-weight:700;font-size:.9rem;
+    box-shadow:0 4px 14px rgba(255,183,3,.35);
+    transition:transform .2s;
+  }
+  .nav-cta:hover{transform:translateY(-2px);}
+  .menu-btn{display:none;background:none;border:none;color:#fff;font-size:1.6rem;cursor:pointer;}
+
+  /* Hero */
+  .hero{
+    background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 100%);
+    color:#fff;position:relative;overflow:hidden;
+    padding:90px 0 70px;
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;
+  }
+  .badge-pill{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(255,183,3,.15);border:1px solid rgba(255,183,3,.4);
+    color:var(--sun);padding:6px 16px;border-radius:999px;
+    font-size:.82rem;font-weight:700;letter-spacing:.4px;margin-bottom:20px;
+  }
+  .hero h1{
+    font-size:2.9rem;font-weight:800;line-height:1.15;margin-bottom:18px;
+  }
+  .hero h1 span{color:var(--sun);}
+  .hero p.lead{
+    font-size:1.1rem;color:#c3d2e0;max-width:520px;margin-bottom:32px;
+  }
+  .hero-cta{display:flex;gap:16px;flex-wrap:wrap;}
+  .btn{
+    padding:14px 28px;border-radius:10px;font-weight:700;font-size:.98rem;
+    display:inline-flex;align-items:center;gap:8px;transition:all .2s;border:2px solid transparent;
+  }
+  .btn-primary{background:var(--sun);color:var(--navy-dark);box-shadow:0 8px 20px rgba(255,183,3,.3);}
+  .btn-primary:hover{background:var(--sun-dark);transform:translateY(-2px);}
+  .btn-outline{border-color:rgba(255,255,255,.4);color:#fff;}
+  .btn-outline:hover{background:rgba(255,255,255,.1);}
+
+  .hero-stats{
+    display:flex;gap:36px;margin-top:48px;flex-wrap:wrap;
+  }
+  .hero-stats div strong{display:block;font-size:1.7rem;color:var(--sun);font-weight:800;}
+  .hero-stats div span{font-size:.85rem;color:#aebdcc;}
+
+  .hero-art{position:relative;}
+
+  /* Trust bar */
+  .trust{background:#fff;border-bottom:1px solid #e7edf3;}
+  .trust .container{
+    display:flex;justify-content:space-around;flex-wrap:wrap;gap:24px;padding:28px 24px;
+  }
+  .trust-item{text-align:center;color:var(--muted);font-weight:600;font-size:.9rem;}
+  .trust-item strong{display:block;color:var(--navy);font-size:1.4rem;font-weight:800;}
+
+  /* Section heading */
+  .sec-head{text-align:center;max-width:640px;margin:0 auto 52px;}
+  .eyebrow{
+    color:var(--leaf);font-weight:800;letter-spacing:1.2px;font-size:.8rem;
+    text-transform:uppercase;margin-bottom:10px;display:block;
+  }
+  .sec-head h2{font-size:2.1rem;font-weight:800;color:var(--navy);margin-bottom:14px;}
+  .sec-head p{color:var(--muted);font-size:1.02rem;}
+
+  /* Services */
+  .services-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:28px;
+  }
+  .service-card{
+    background:var(--card);border-radius:var(--radius);padding:34px 28px;
+    box-shadow:0 4px 18px rgba(11,37,64,.06);border:1px solid #eef2f6;
+    transition:transform .25s, box-shadow .25s;
+  }
+  .service-card:hover{transform:translateY(-6px);box-shadow:0 16px 34px rgba(11,37,64,.12);}
+  .service-icon{
+    width:56px;height:56px;border-radius:14px;
+    background:linear-gradient(135deg,var(--sun),var(--sun-dark));
+    display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+  }
+  .service-card h3{font-size:1.2rem;color:var(--navy);margin-bottom:10px;font-weight:700;}
+  .service-card p{color:var(--muted);font-size:.95rem;}
+
+  /* Why us */
+  .why{background:#fff;}
+  .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;}
+  .why-list{display:flex;flex-direction:column;gap:22px;}
+  .why-item{display:flex;gap:16px;align-items:flex-start;}
+  .why-icon{
+    flex:none;width:44px;height:44px;border-radius:12px;background:#eaf7ef;
+    display:flex;align-items:center;justify-content:center;color:var(--leaf);font-weight:800;
+  }
+  .why-item h4{color:var(--navy);font-size:1.05rem;margin-bottom:4px;font-weight:700;}
+  .why-item p{color:var(--muted);font-size:.92rem;}
+
+  /* Process */
+  .process{background:var(--bg);}
+  .process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+  .process-card{text-align:center;position:relative;padding:20px;}
+  .process-num{
+    width:52px;height:52px;border-radius:50%;background:var(--navy);color:var(--sun);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;
+    margin:0 auto 16px;
+  }
+  .process-card h4{color:var(--navy);font-size:1.02rem;margin-bottom:8px;font-weight:700;}
+  .process-card p{color:var(--muted);font-size:.88rem;}
+
+  /* CTA banner */
+  .cta-banner{
+    background:linear-gradient(120deg,var(--leaf),#1f6b45);
+    color:#fff;border-radius:24px;padding:56px 40px;text-align:center;
+    margin:0 24px;box-shadow:0 20px 50px rgba(46,139,87,.25);
+  }
+  .cta-banner h2{font-size:1.9rem;font-weight:800;margin-bottom:12px;}
+  .cta-banner p{color:#dff2e6;max-width:520px;margin:0 auto 28px;}
+
+  /* Testimonials */
+  .testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+  .t-card{
+    background:var(--card);border-radius:var(--radius);padding:28px;
+    border:1px solid #eef2f6;box-shadow:0 4px 18px rgba(11,37,64,.05);
+  }
+  .stars{color:var(--sun);letter-spacing:2px;margin-bottom:12px;font-size:1.05rem;}
+  .t-card p.quote{color:var(--ink);font-size:.95rem;margin-bottom:18px;}
+  .t-person{display:flex;align-items:center;gap:12px;}
+  .t-avatar{
+    width:42px;height:42px;border-radius:50%;background:var(--navy);color:var(--sun);
+    display:flex;align-items:center;justify-content:center;font-weight:800;
+  }
+  .t-person strong{display:block;color:var(--navy);font-size:.92rem;}
+  .t-person span{font-size:.8rem;color:var(--muted);}
+
+  /* Footer */
+  footer{background:var(--navy-dark);color:#c3d2e0;padding:60px 0 24px;}
+  .footer-grid{
+    display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr;gap:40px;margin-bottom:40px;
+  }
+  .footer-logo{font-weight:800;font-size:1.25rem;color:#fff;margin-bottom:14px;}
+  .footer-logo .dot{color:var(--sun);}
+  footer h5{color:#fff;font-size:.95rem;margin-bottom:16px;font-weight:700;}
+  footer ul{list-style:none;}
+  footer ul li{margin-bottom:10px;font-size:.9rem;}
+  footer ul li a:hover{color:var(--sun);}
+  .footer-bottom{
+    border-top:1px solid rgba(255,255,255,.1);padding-top:22px;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+    font-size:.82rem;color:#8ea0b3;
+  }
+
+  /* Back to top */
+  #toTop{
+    position:fixed;bottom:26px;right:26px;width:46px;height:46px;border-radius:50%;
+    background:var(--sun);color:var(--navy-dark);border:none;font-size:1.2rem;font-weight:800;
+    cursor:pointer;display:none;align-items:center;justify-content:center;
+    box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:200;
+  }
+
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr;}
+    .services-grid{grid-template-columns:repeat(2,1fr);}
+    .why-grid{grid-template-columns:1fr;}
+    .process-grid{grid-template-columns:repeat(2,1fr);}
+    .testimonials-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media(max-width:640px){
+    .nav-links{display:none;}
+    .menu-btn{display:block;}
+    .hero h1{font-size:2.1rem;}
+    .services-grid,.process-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr;}
   }
 </style>
 </head>
 <body>
-  <div class="card">
-    <span class="badge">TEMPORARY SITE CHECK</span>
-    <h1>Gopal Solar 360</h1>
-    <p>This page is a temporary placeholder used to verify hosting and deployment for the Gopal Solar 360 website. Full site content coming soon.</p>
-    <footer>&copy; 2026 Gopal Solar 360 — Deployment test page</footer>
+
+<header>
+  <div class="nav">
+    <a href="#top" class="logo">☀️ Gopal Solar<span class="dot">360</span></a>
+    <nav class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#why">Why Us</a>
+      <a href="#process">Process</a>
+      <a href="#testimonials">Reviews</a>
+      <a href="#contact" class="nav-cta">Get Free Quote</a>
+    </nav>
+    <button class="menu-btn" aria-label="menu">☰</button>
   </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="container hero-grid">
+    <div>
+      <span class="badge-pill">⚡ 25-Year Performance Warranty</span>
+      <h1>Power Your Home &amp; Business with <span>Clean Solar Energy</span></h1>
+      <p class="lead">Gopal Solar 360 designs, installs, and maintains high-efficiency solar systems for residential and commercial rooftops — cut your electricity bill by up to 90% and start saving from day one.</p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn btn-primary">Get a Free Site Survey</a>
+        <a href="#services" class="btn btn-outline">Explore Solutions</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>500+</strong><span>Installations Completed</span></div>
+        <div><strong>90%</strong><span>Avg. Bill Reduction</span></div>
+        <div><strong>25 Yrs</strong><span>Panel Warranty</span></div>
+      </div>
+    </div>
+    <div class="hero-art">
+      <svg viewBox="0 0 480 380" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="390" cy="70" r="46" fill="#ffb703" opacity="0.9"/>
+        <g stroke="#ffb703" stroke-width="4" opacity="0.6">
+          <line x1="390" y1="0" x2="390" y2="18"/>
+          <line x1="390" y1="122" x2="390" y2="140"/>
+          <line x1="320" y1="70" x2="338" y2="70"/>
+          <line x1="442" y1="70" x2="460" y2="70"/>
+        </g>
+        <rect x="40" y="210" width="220" height="130" rx="6" fill="#123a5e"/>
+        <polygon points="30,210 150,140 270,210" fill="#0b2540"/>
+        <g fill="#ffb703" stroke="#0b2540" stroke-width="2">
+          <rect x="55" y="150" width="42" height="26" transform="skewX(-18)"/>
+          <rect x="105" y="150" width="42" height="26" transform="skewX(-18)"/>
+          <rect x="155" y="150" width="42" height="26" transform="skewX(-18)"/>
+        </g>
+        <rect x="70" y="250" width="46" height="46" fill="#e8f1fb"/>
+        <rect x="140" y="250" width="46" height="46" fill="#e8f1fb"/>
+        <rect x="210" y="270" width="34" height="70" fill="#3c6ea5"/>
+        <g fill="#2e8b57">
+          <ellipse cx="330" cy="330" rx="70" ry="14"/>
+          <ellipse cx="60" cy="345" rx="60" ry="12"/>
+        </g>
+        <rect x="290" y="230" width="150" height="90" rx="4" fill="#123a5e"/>
+        <g fill="#ffb703" opacity="0.85">
+          <rect x="300" y="240" width="30" height="30"/>
+          <rect x="335" y="240" width="30" height="30"/>
+          <rect x="370" y="240" width="30" height="30"/>
+          <rect x="405" y="240" width="30" height="30"/>
+          <rect x="300" y="275" width="30" height="30"/>
+          <rect x="335" y="275" width="30" height="30"/>
+          <rect x="370" y="275" width="30" height="30"/>
+          <rect x="405" y="275" width="30" height="30"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="trust">
+  <div class="container">
+    <div class="trust-item"><strong>12+</strong>Years in Business</div>
+    <div class="trust-item"><strong>4.9★</strong>Google Rating</div>
+    <div class="trust-item"><strong>MNRE</strong>Certified Installers</div>
+    <div class="trust-item"><strong>0%</strong>EMI Options Available</div>
+  </div>
+</div>
+
+<section id="services">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow">What We Offer</span>
+      <h2>Solar Solutions for Every Rooftop</h2>
+      <p>Whether it's your family home or a full commercial facility, we design a system sized exactly to your energy needs and budget.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🏠</div>
+        <h3>Residential Solar</h3>
+        <p>Custom rooftop solar systems for homes — reduce your monthly electricity bill and power your household with clean energy.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🏢</div>
+        <h3>Commercial &amp; Retail Solar</h3>
+        <p>Large-scale installations for shops, offices, and factories, engineered to slash operating costs and boost sustainability credentials.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔋</div>
+        <h3>Battery Storage</h3>
+        <p>Store excess solar power for use at night or during outages — stay powered even when the grid isn't.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🛠️</div>
+        <h3>Maintenance &amp; AMC</h3>
+        <p>Routine cleaning, panel health checks, and inverter servicing to keep your system running at peak efficiency.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📊</div>
+        <h3>Net Metering Support</h3>
+        <p>We handle the entire paperwork and utility approval process so you can start earning credits for excess power.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">💰</div>
+        <h3>Financing &amp; Subsidy</h3>
+        <p>Flexible EMI plans and help claiming government solar subsidies to make your switch to solar affordable.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="why" id="why">
+  <div class="container why-grid">
+    <div>
+      <span class="eyebrow">Why Gopal Solar 360</span>
+      <h2 style="font-size:2.1rem;font-weight:800;color:var(--navy);margin-bottom:20px;">Trusted by Homes and Businesses Alike</h2>
+      <div class="why-list">
+        <div class="why-item">
+          <div class="why-icon">✓</div>
+          <div><h4>Certified &amp; Experienced Team</h4><p>MNRE-certified engineers with over a decade of installation experience.</p></div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">✓</div>
+          <div><h4>Premium Tier-1 Panels</h4><p>We use only high-efficiency, Tier-1 rated panels backed by 25-year warranties.</p></div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">✓</div>
+          <div><h4>Transparent Pricing</h4><p>No hidden costs — get a clear, itemized quote before any work begins.</p></div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">✓</div>
+          <div><h4>End-to-End Service</h4><p>From site survey to subsidy paperwork to after-sales support — we handle it all.</p></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="10" width="380" height="300" rx="20" fill="#eaf7ef"/>
+        <circle cx="200" cy="90" r="50" fill="#ffb703"/>
+        <g fill="#2e8b57">
+          <rect x="90" y="160" width="220" height="14" rx="7"/>
+          <rect x="90" y="190" width="160" height="14" rx="7"/>
+          <rect x="90" y="220" width="190" height="14" rx="7"/>
+        </g>
+        <path d="M150 90 l30 30 l60 -60" stroke="#0b2540" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="process" id="process">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow">How It Works</span>
+      <h2>Your Journey to Solar in 4 Simple Steps</h2>
+    </div>
+    <div class="process-grid">
+      <div class="process-card">
+        <div class="process-num">1</div>
+        <h4>Free Site Survey</h4>
+        <p>We assess your roof, energy usage, and design the ideal system size.</p>
+      </div>
+      <div class="process-card">
+        <div class="process-num">2</div>
+        <h4>Custom Design &amp; Quote</h4>
+        <p>Get a transparent proposal with expected savings and payback period.</p>
+      </div>
+      <div class="process-card">
+        <div class="process-num">3</div>
+        <h4>Professional Installation</h4>
+        <p>Our certified team installs your system with minimal disruption.</p>
+      </div>
+      <div class="process-card">
+        <div class="process-num">4</div>
+        <h4>Monitor &amp; Save</h4>
+        <p>Track your generation in real time and enjoy lower electricity bills.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="cta-banner">
+    <h2>Ready to Cut Your Electricity Bill?</h2>
+    <p>Book a free, no-obligation site survey today and get a custom solar quote within 24 hours.</p>
+    <a href="#contact" class="btn btn-primary">Request Free Quote</a>
+  </div>
+</section>
+
+<section id="testimonials">
+  <div class="container">
+    <div class="sec-head">
+      <span class="eyebrow">Customer Stories</span>
+      <h2>What Our Customers Say</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="t-card">
+        <div class="stars">★★★★★</div>
+        <p class="quote">"Our electricity bill dropped by 85% within the first month. The team was professional and finished the install in two days."</p>
+        <div class="t-person">
+          <div class="t-avatar">R</div>
+          <div><strong>Ramesh K.</strong><span>Homeowner, Coimbatore</span></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="stars">★★★★★</div>
+        <p class="quote">"We installed a commercial rooftop system for our retail store. Payback in under 4 years — best business decision this year."</p>
+        <div class="t-person">
+          <div class="t-avatar">S</div>
+          <div><strong>Sundari Textiles</strong><span>Retail Business</span></div>
+        </div>
+      </div>
+      <div class="t-card">
+        <div class="stars">★★★★★</div>
+        <p class="quote">"Transparent pricing and they handled all the subsidy paperwork for us. Highly recommend Gopal Solar 360."</p>
+        <div class="t-person">
+          <div class="t-avatar">P</div>
+          <div><strong>Priya M.</strong><span>Homeowner, Erode</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">☀️ Gopal Solar<span class="dot">360</span></div>
+        <p style="font-size:.9rem;max-width:280px;">Clean, reliable solar power solutions for homes and businesses — designed to save you money for decades.</p>
+      </div>
+      <div>
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#why">About Us</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#testimonials">Reviews</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Services</h5>
+        <ul>
+          <li><a href="#services">Residential Solar</a></li>
+          <li><a href="#services">Commercial Solar</a></li>
+          <li><a href="#services">Battery Storage</a></li>
+          <li><a href="#services">Maintenance</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Get In Touch</h5>
+        <ul>
+          <li>📞 +91 98765 43210</li>
+          <li>✉️ info@gopalsolar360.com</li>
+          <li>📍 Coimbatore, Tamil Nadu, India</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Gopal Solar 360. All rights reserved.</span>
+      <span>Powered by clean energy ☀️</span>
+    </div>
+  </div>
+</footer>
+
+<button id="toTop" aria-label="Back to top">↑</button>
+
+<script>
+  const toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', () => {
+    toTop.style.display = window.scrollY > 400 ? 'flex' : 'none';
+  });
+  toTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+  const menuBtn = document.querySelector('.menu-btn');
+  const navLinks = document.querySelector('.nav-links');
+  menuBtn.addEventListener('click', () => {
+    const open = navLinks.style.display === 'flex';
+    navLinks.style.display = open ? 'none' : 'flex';
+    navLinks.style.flexDirection = 'column';
+    navLinks.style.position = 'absolute';
+    navLinks.style.top = '64px';
+    navLinks.style.right = '20px';
+    navLinks.style.background = '#0b2540';
+    navLinks.style.padding = '20px';
+    navLinks.style.borderRadius = '12px';
+  });
+</script>
+
 </body>
 </html>
