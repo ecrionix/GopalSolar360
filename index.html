@@ -42,6 +42,8 @@
   .nav-cta{background:var(--sun);color:var(--navy-dark);padding:10px 20px;border-radius:999px;font-weight:700;font-size:.88rem;box-shadow:0 4px 14px rgba(255,183,3,.35);transition:transform .2s;}
   .nav-cta:hover{transform:translateY(-2px);}
   .menu-btn{display:none;background:none;border:none;color:#fff;font-size:1.6rem;cursor:pointer;}
+  .lang-toggle{background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff;padding:7px 14px;border-radius:999px;font-size:.82rem;font-weight:700;cursor:pointer;transition:background .2s;}
+  .lang-toggle:hover{background:rgba(255,255,255,.12);}
 
   /* Hero */
   .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 100%);color:#fff;position:relative;overflow:hidden;padding:70px 0 60px;}
@@ -156,12 +158,13 @@
   <div class="nav">
     <a href="#top" class="logo">☀️ Gopal Solar<span class="dot">360</span></a>
     <nav class="nav-links">
-      <a href="#subsidy">Subsidy</a>
-      <a href="#benefits">Benefits</a>
-      <a href="calculator.html">Calculator</a>
-      <a href="book-survey.html">Book Survey</a>
-      <a href="#faq">FAQ</a>
-      <a href="#contact" class="nav-cta">Check Eligibility</a>
+      <a href="#subsidy" data-i18n="nav_subsidy">Subsidy</a>
+      <a href="#benefits" data-i18n="nav_benefits">Benefits</a>
+      <a href="calculator.html" data-i18n="nav_calculator">Calculator</a>
+      <a href="book-survey.html" data-i18n="nav_booksurvey">Book Survey</a>
+      <a href="#faq" data-i18n="nav_faq">FAQ</a>
+      <button class="lang-toggle">தமிழ்</button>
+      <a href="#contact" class="nav-cta" data-i18n="nav_checkeligibility">Check Eligibility</a>
     </nav>
     <button class="menu-btn" aria-label="menu">☰</button>
   </div>
@@ -170,18 +173,18 @@
 <section class="hero" id="top">
   <div class="container hero-grid">
     <div>
-      <span class="badge-pill">⚡ PM Surya Ghar Muft Bijli Yojana Partner</span>
-      <h1>Rooftop Solar for Your Home &amp; Business</h1>
-      <p class="tagline">Get Up to <em>₹78,000 Government Subsidy</em> on Rooftop Solar</p>
-      <p class="lead">Gopal Solar 360 helps you claim the full central government subsidy under PM Surya Ghar Yojana and installs a system sized exactly to your energy needs — with 70-90% reduction in your electricity bill.</p>
+      <span class="badge-pill" data-i18n="home_hero_badge">⚡ PM Surya Ghar Muft Bijli Yojana Partner</span>
+      <h1 data-i18n="home_hero_h1">Rooftop Solar for Your Home &amp; Business</h1>
+      <p class="tagline"><span data-i18n="home_hero_tagline_pre">Get Up to</span> <em data-i18n="home_hero_tagline_amt">₹78,000 Government Subsidy</em> <span data-i18n="home_hero_tagline_post">on Rooftop Solar</span></p>
+      <p class="lead" data-i18n="home_hero_lead">Gopal Solar 360 helps you claim the full central government subsidy under PM Surya Ghar Yojana and installs a system sized exactly to your energy needs — with 70-90% reduction in your electricity bill.</p>
       <div class="hero-cta">
-        <a href="#contact" class="btn btn-primary">Check Eligibility</a>
-        <a href="calculator.html" class="btn btn-outline">Calculate Savings</a>
+        <a href="#contact" class="btn btn-primary" data-i18n="home_hero_btn_check">Check Eligibility</a>
+        <a href="calculator.html" class="btn btn-outline" data-i18n="home_hero_btn_calc">Calculate Savings</a>
       </div>
       <div class="hero-stats">
-        <div><strong>500+</strong><span>Installations Done</span></div>
-        <div><strong>₹78,000</strong><span>Max Subsidy Available</span></div>
-        <div><strong>25 Yrs</strong><span>Panel Warranty</span></div>
+        <div><strong>500+</strong><span data-i18n="home_stat1_label">Installations Done</span></div>
+        <div><strong>₹78,000</strong><span data-i18n="home_stat2_label">Max Subsidy Available</span></div>
+        <div><strong data-i18n="home_stat3_num">25 Yrs</strong><span data-i18n="home_stat3_label">Panel Warranty</span></div>
       </div>
     </div>
     <div class="hero-art">
@@ -225,57 +228,57 @@
 
 <div class="trust">
   <div class="container">
-    <div class="trust-item"><strong>12+</strong>Years in Business</div>
-    <div class="trust-item"><strong>4.9★</strong>Google Rating</div>
-    <div class="trust-item"><strong>MNRE</strong>Certified Installers</div>
-    <div class="trust-item"><strong>0%</strong>EMI Options Available</div>
+    <div class="trust-item"><strong>12+</strong><span data-i18n="home_trust1">Years in Business</span></div>
+    <div class="trust-item"><strong>4.9★</strong><span data-i18n="home_trust2">Google Rating</span></div>
+    <div class="trust-item"><strong>MNRE</strong><span data-i18n="home_trust3">Certified Installers</span></div>
+    <div class="trust-item"><strong>0%</strong><span data-i18n="home_trust4">EMI Options Available</span></div>
   </div>
 </div>
 
 <section id="subsidy">
   <div class="container">
     <div class="sec-head">
-      <span class="eyebrow">Government Scheme</span>
-      <h2>PM Surya Ghar Subsidy Rates</h2>
-      <p>Under the PM Surya Ghar Muft Bijli Yojana, the central government offers a direct subsidy based on your system capacity.</p>
+      <span class="eyebrow" data-i18n="home_subsidy_eyebrow">Government Scheme</span>
+      <h2 data-i18n="home_subsidy_h2">PM Surya Ghar Subsidy Rates</h2>
+      <p data-i18n="home_subsidy_desc">Under the PM Surya Ghar Muft Bijli Yojana, the central government offers a direct subsidy based on your system capacity.</p>
     </div>
     <div class="subsidy-wrap">
       <table>
         <thead>
-          <tr><th>System Capacity</th><th>Monthly Generation</th><th>Subsidy Amount</th></tr>
+          <tr><th data-i18n="home_subsidy_th1">System Capacity</th><th data-i18n="home_subsidy_th2">Monthly Generation</th><th data-i18n="home_subsidy_th3">Subsidy Amount</th></tr>
         </thead>
         <tbody>
-          <tr><td>1 kW</td><td>~120 units/month</td><td class="amount">₹30,000</td></tr>
-          <tr><td>2 kW</td><td>~240 units/month</td><td class="amount">₹60,000</td></tr>
-          <tr><td>3 kW &amp; above</td><td>360+ units/month</td><td class="amount">₹78,000</td></tr>
+          <tr><td data-i18n="home_subsidy_row1_cap">1 kW</td><td data-i18n="home_subsidy_row1_gen">~120 units/month</td><td class="amount">₹30,000</td></tr>
+          <tr><td data-i18n="home_subsidy_row2_cap">2 kW</td><td data-i18n="home_subsidy_row2_gen">~240 units/month</td><td class="amount">₹60,000</td></tr>
+          <tr><td data-i18n="home_subsidy_row3_cap">3 kW &amp; above</td><td data-i18n="home_subsidy_row3_gen">360+ units/month</td><td class="amount">₹78,000</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="subsidy-note">Subsidy amounts as per PM Surya Ghar Muft Bijli Yojana guidelines. Gopal Solar 360 assists with the complete application process.</p>
+    <p class="subsidy-note" data-i18n="home_subsidy_note">Subsidy amounts as per PM Surya Ghar Muft Bijli Yojana guidelines. Gopal Solar 360 assists with the complete application process.</p>
   </div>
 </section>
 
 <section class="steps" id="benefits">
   <div class="container">
     <div class="sec-head">
-      <span class="eyebrow">Why Go Solar</span>
-      <h2>Key Benefits of the Scheme</h2>
+      <span class="eyebrow" data-i18n="home_benefits_eyebrow">Why Go Solar</span>
+      <h2 data-i18n="home_benefits_h2">Key Benefits of the Scheme</h2>
     </div>
     <div class="benefits-grid">
       <div class="benefit-card">
         <div class="benefit-icon">💰</div>
-        <h3>Up to ₹78,000 Subsidy</h3>
-        <p>Direct central government financial assistance credited to your bank account.</p>
+        <h3 data-i18n="home_benefit1_h3">Up to ₹78,000 Subsidy</h3>
+        <p data-i18n="home_benefit1_p">Direct central government financial assistance credited to your bank account.</p>
       </div>
       <div class="benefit-card">
         <div class="benefit-icon">📉</div>
-        <h3>70-90% Bill Reduction</h3>
-        <p>Slash your monthly electricity expenses with self-generated solar power.</p>
+        <h3 data-i18n="home_benefit2_h3">70-90% Bill Reduction</h3>
+        <p data-i18n="home_benefit2_p">Slash your monthly electricity expenses with self-generated solar power.</p>
       </div>
       <div class="benefit-card">
         <div class="benefit-icon">🔌</div>
-        <h3>Earn from Surplus Power</h3>
-        <p>Sell excess electricity back to the grid through net metering and earn extra income.</p>
+        <h3 data-i18n="home_benefit3_h3">Earn from Surplus Power</h3>
+        <p data-i18n="home_benefit3_p">Sell excess electricity back to the grid through net metering and earn extra income.</p>
       </div>
     </div>
   </div>
@@ -284,29 +287,29 @@
 <section id="steps">
   <div class="container">
     <div class="sec-head">
-      <span class="eyebrow">Application Process</span>
-      <h2>How to Apply — 4 Simple Steps</h2>
+      <span class="eyebrow" data-i18n="home_steps_eyebrow">Application Process</span>
+      <h2 data-i18n="home_steps_h2">How to Apply — 4 Simple Steps</h2>
     </div>
     <div class="process-grid">
       <div class="process-card">
         <div class="process-num">1</div>
-        <h4>Register</h4>
-        <p>Sign up on the PM Surya Ghar portal with Gopal Solar 360's guidance.</p>
+        <h4 data-i18n="home_step1_h4">Register</h4>
+        <p data-i18n="home_step1_p">Sign up on the PM Surya Ghar portal with Gopal Solar 360's guidance.</p>
       </div>
       <div class="process-card">
         <div class="process-num">2</div>
-        <h4>Submit Documents</h4>
-        <p>Provide your electricity bill and ID proof — we help prepare everything.</p>
+        <h4 data-i18n="home_step2_h4">Submit Documents</h4>
+        <p data-i18n="home_step2_p">Provide your electricity bill and ID proof — we help prepare everything.</p>
       </div>
       <div class="process-card">
         <div class="process-num">3</div>
-        <h4>Installation</h4>
-        <p>Our certified team installs your rooftop system as an approved vendor.</p>
+        <h4 data-i18n="home_step3_h4">Installation</h4>
+        <p data-i18n="home_step3_p">Our certified team installs your rooftop system as an approved vendor.</p>
       </div>
       <div class="process-card">
         <div class="process-num">4</div>
-        <h4>Receive Subsidy</h4>
-        <p>Get the subsidy amount credited directly to your bank account.</p>
+        <h4 data-i18n="home_step4_h4">Receive Subsidy</h4>
+        <p data-i18n="home_step4_p">Get the subsidy amount credited directly to your bank account.</p>
       </div>
     </div>
   </div>
@@ -314,42 +317,42 @@
 
 <section>
   <div class="cta-banner">
-    <h2>Ready to Claim Your Solar Subsidy?</h2>
-    <p>Check your eligibility for free and get a custom quote within 24 hours from Gopal Solar 360.</p>
-    <a href="#contact" class="btn btn-primary">Check Eligibility Now</a>
+    <h2 data-i18n="home_cta_h2">Ready to Claim Your Solar Subsidy?</h2>
+    <p data-i18n="home_cta_p">Check your eligibility for free and get a custom quote within 24 hours from Gopal Solar 360.</p>
+    <a href="#contact" class="btn btn-primary" data-i18n="home_cta_btn">Check Eligibility Now</a>
   </div>
 </section>
 
 <section id="faq">
   <div class="container">
     <div class="sec-head">
-      <span class="eyebrow">Got Questions</span>
-      <h2>Frequently Asked Questions</h2>
+      <span class="eyebrow" data-i18n="home_faq_eyebrow">Got Questions</span>
+      <h2 data-i18n="home_faq_h2">Frequently Asked Questions</h2>
     </div>
     <div class="faq-list">
       <div class="faq-item">
-        <button class="faq-q">How much subsidy can I get? <span class="arrow">⌄</span></button>
-        <div class="faq-a"><p>Up to ₹78,000 for systems of 3 kW or above, based on the PM Surya Ghar Muft Bijli Yojana slab rates.</p></div>
+        <button class="faq-q"><span data-i18n="home_faq1_q">How much subsidy can I get?</span> <span class="arrow">⌄</span></button>
+        <div class="faq-a"><p data-i18n="home_faq1_a">Up to ₹78,000 for systems of 3 kW or above, based on the PM Surya Ghar Muft Bijli Yojana slab rates.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">What does a 3 kW system cost? <span class="arrow">⌄</span></button>
-        <div class="faq-a"><p>Approximately ₹1,96,000 before subsidy, depending on panel type and roof condition. Gopal Solar 360 provides a free, itemized quote.</p></div>
+        <button class="faq-q"><span data-i18n="home_faq2_q">What does a 3 kW system cost?</span> <span class="arrow">⌄</span></button>
+        <div class="faq-a"><p data-i18n="home_faq2_a">Approximately ₹1,96,000 before subsidy, depending on panel type and roof condition. Gopal Solar 360 provides a free, itemized quote.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">Is a solar loan available? <span class="arrow">⌄</span></button>
-        <div class="faq-a"><p>Yes, we help you access low-interest solar loans and EMI options from partner banks.</p></div>
+        <button class="faq-q"><span data-i18n="home_faq3_q">Is a solar loan available?</span> <span class="arrow">⌄</span></button>
+        <div class="faq-a"><p data-i18n="home_faq3_a">Yes, we help you access low-interest solar loans and EMI options from partner banks.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">How long does the subsidy take? <span class="arrow">⌄</span></button>
-        <div class="faq-a"><p>Typically 30-45 days after installation and net-metering approval, credited directly to your bank account.</p></div>
+        <button class="faq-q"><span data-i18n="home_faq4_q">How long does the subsidy take?</span> <span class="arrow">⌄</span></button>
+        <div class="faq-a"><p data-i18n="home_faq4_a">Typically 30-45 days after installation and net-metering approval, credited directly to your bank account.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">Does Gopal Solar 360 handle the paperwork? <span class="arrow">⌄</span></button>
-        <div class="faq-a"><p>Yes, our team manages registration, document submission, and subsidy tracking end-to-end.</p></div>
+        <button class="faq-q"><span data-i18n="home_faq5_q">Does Gopal Solar 360 handle the paperwork?</span> <span class="arrow">⌄</span></button>
+        <div class="faq-a"><p data-i18n="home_faq5_a">Yes, our team manages registration, document submission, and subsidy tracking end-to-end.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">Do you serve commercial and retail customers too? <span class="arrow">⌄</span></button>
-        <div class="faq-a"><p>Yes, we design and install larger systems for shops, offices, and factories in addition to residential rooftops.</p></div>
+        <button class="faq-q"><span data-i18n="home_faq6_q">Do you serve commercial and retail customers too?</span> <span class="arrow">⌄</span></button>
+        <div class="faq-a"><p data-i18n="home_faq6_a">Yes, we design and install larger systems for shops, offices, and factories in addition to residential rooftops.</p></div>
       </div>
     </div>
   </div>
@@ -360,27 +363,27 @@
     <div class="footer-grid">
       <div>
         <div class="footer-logo">☀️ Gopal Solar<span class="dot">360</span></div>
-        <p style="font-size:.88rem;max-width:280px;">Helping homes and businesses go solar with full support for PM Surya Ghar subsidy applications and professional installation.</p>
+        <p style="font-size:.88rem;max-width:280px;" data-i18n="home_footer_tagline">Helping homes and businesses go solar with full support for PM Surya Ghar subsidy applications and professional installation.</p>
       </div>
       <div>
-        <h5>Quick Links</h5>
+        <h5 data-i18n="home_footer_h5_1">Quick Links</h5>
         <ul>
-          <li><a href="#subsidy">Subsidy Rates</a></li>
-          <li><a href="#benefits">Benefits</a></li>
-          <li><a href="#steps">Application Steps</a></li>
-          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#subsidy" data-i18n="home_footer_ql1">Subsidy Rates</a></li>
+          <li><a href="#benefits" data-i18n="home_footer_ql2">Benefits</a></li>
+          <li><a href="#steps" data-i18n="home_footer_ql3">Application Steps</a></li>
+          <li><a href="#faq" data-i18n="home_footer_ql4">FAQ</a></li>
         </ul>
       </div>
       <div>
-        <h5>Scheme</h5>
+        <h5 data-i18n="home_footer_h5_2">Scheme</h5>
         <ul>
-          <li><a href="#subsidy">PM Surya Ghar Yojana</a></li>
-          <li><a href="#steps">Eligibility Process</a></li>
-          <li><a href="#contact">Solar Loans</a></li>
+          <li><a href="#subsidy" data-i18n="home_footer_sch1">PM Surya Ghar Yojana</a></li>
+          <li><a href="#steps" data-i18n="home_footer_sch2">Eligibility Process</a></li>
+          <li><a href="#contact" data-i18n="home_footer_sch3">Solar Loans</a></li>
         </ul>
       </div>
       <div>
-        <h5>Get In Touch</h5>
+        <h5 data-i18n="home_footer_h5_3">Get In Touch</h5>
         <ul>
           <li>📞 +91 98765 43210</li>
           <li>✉️ info@gopalsolar360.com</li>
@@ -389,8 +392,8 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>&copy; 2026 Gopal Solar 360. All rights reserved.</span>
-      <span>Privacy Policy · Disclaimer</span>
+      <span data-i18n="home_footer_copyright">&copy; 2026 Gopal Solar 360. All rights reserved.</span>
+      <span data-i18n="home_footer_legal">Privacy Policy · Disclaimer</span>
     </div>
   </div>
 </footer>
@@ -424,6 +427,7 @@
     });
   });
 </script>
+<script src="assets/i18n.js"></script>
 
 </body>
 </html>

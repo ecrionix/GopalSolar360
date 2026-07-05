@@ -35,6 +35,8 @@
   .nav-cta{background:var(--sun);color:var(--navy-dark);padding:10px 20px;border-radius:999px;font-weight:700;font-size:.88rem;box-shadow:0 4px 14px rgba(255,183,3,.35);transition:transform .2s;}
   .nav-cta:hover{transform:translateY(-2px);}
   .menu-btn{display:none;background:none;border:none;color:#fff;font-size:1.6rem;cursor:pointer;}
+  .lang-toggle{background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff;padding:7px 14px;border-radius:999px;font-size:.82rem;font-weight:700;cursor:pointer;transition:background .2s;}
+  .lang-toggle:hover{background:rgba(255,255,255,.12);}
 
   .page-hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 100%);color:#fff;padding:56px 0;text-align:center;}
   .page-hero .eyebrow{color:var(--sun);font-weight:800;letter-spacing:1.2px;font-size:.8rem;text-transform:uppercase;margin-bottom:10px;display:block;}
@@ -93,12 +95,13 @@
   <div class="nav">
     <a href="index.html" class="logo">☀️ Gopal Solar<span class="dot">360</span></a>
     <nav class="nav-links">
-      <a href="index.html#subsidy">Subsidy</a>
-      <a href="index.html#benefits">Benefits</a>
-      <a href="calculator.html">Calculator</a>
-      <a href="book-survey.html">Book Survey</a>
-      <a href="index.html#faq">FAQ</a>
-      <a href="index.html#contact" class="nav-cta">Check Eligibility</a>
+      <a href="index.html#subsidy" data-i18n="nav_subsidy">Subsidy</a>
+      <a href="index.html#benefits" data-i18n="nav_benefits">Benefits</a>
+      <a href="calculator.html" data-i18n="nav_calculator">Calculator</a>
+      <a href="book-survey.html" data-i18n="nav_booksurvey">Book Survey</a>
+      <a href="index.html#faq" data-i18n="nav_faq">FAQ</a>
+      <button class="lang-toggle">தமிழ்</button>
+      <a href="index.html#contact" class="nav-cta" data-i18n="nav_checkeligibility">Check Eligibility</a>
     </nav>
     <button class="menu-btn" aria-label="menu">☰</button>
   </div>
@@ -106,27 +109,27 @@
 
 <div class="breadcrumb">
   <div class="container">
-    <a href="index.html">Home</a> / Calculator
+    <a href="index.html" data-i18n="nav_home">Home</a> / <span data-i18n="calc_breadcrumb">Calculator</span>
   </div>
 </div>
 
 <div class="page-hero">
   <div class="container">
-    <span class="eyebrow">Free Tool</span>
-    <h1>Solar Savings &amp; Subsidy Calculator</h1>
-    <p>Enter your average monthly electricity bill to estimate your ideal system size, PM Surya Ghar subsidy, installation cost, and payback period.</p>
+    <span class="eyebrow" data-i18n="calc_eyebrow">Free Tool</span>
+    <h1 data-i18n="calc_h1">Solar Savings &amp; Subsidy Calculator</h1>
+    <p data-i18n="calc_lead">Enter your average monthly electricity bill to estimate your ideal system size, PM Surya Ghar subsidy, installation cost, and payback period.</p>
   </div>
 </div>
 
 <section>
   <div class="container calc-wrap">
     <div class="calc-card">
-      <h3>Your Details</h3>
-      <label for="bill">Average Monthly Electricity Bill (₹)</label>
+      <h3 data-i18n="calc_card1_h3">Your Details</h3>
+      <label for="bill" data-i18n="calc_bill_label">Average Monthly Electricity Bill (₹)</label>
       <input type="range" id="bill" min="500" max="15000" step="100" value="3000">
       <div class="range-val"><span>₹500</span><span id="billVal">₹3,000</span><span>₹15,000</span></div>
 
-      <label for="tariff">Electricity Rate (₹ per unit)</label>
+      <label for="tariff" data-i18n="calc_tariff_label">Electricity Rate (₹ per unit)</label>
       <select id="tariff">
         <option value="6">₹6 / unit</option>
         <option value="7">₹7 / unit</option>
@@ -135,46 +138,46 @@
         <option value="10">₹10 / unit</option>
       </select>
 
-      <label for="type">Property Type</label>
+      <label for="type" data-i18n="calc_type_label">Property Type</label>
       <select id="type">
-        <option value="residential">Residential</option>
-        <option value="commercial">Commercial / Retail</option>
+        <option value="residential" data-i18n="calc_type_res">Residential</option>
+        <option value="commercial" data-i18n="calc_type_com">Commercial / Retail</option>
       </select>
 
-      <button class="btn" onclick="calculate()">Calculate My Savings</button>
+      <button class="btn" onclick="calculate()" data-i18n="calc_btn">Calculate My Savings</button>
     </div>
 
     <div class="calc-card">
-      <h3>Your Estimate</h3>
+      <h3 data-i18n="calc_card2_h3">Your Estimate</h3>
       <div class="result-grid">
-        <div class="result-item"><div class="label">Recommended System</div><div class="value" id="outKw">2.0 kW</div></div>
-        <div class="result-item"><div class="label">Installation Cost</div><div class="value" id="outCost">₹1,30,000</div></div>
-        <div class="result-item highlight"><div class="label">Govt. Subsidy</div><div class="value" id="outSubsidy">₹60,000</div></div>
-        <div class="result-item"><div class="label">Cost After Subsidy</div><div class="value" id="outNet">₹70,000</div></div>
-        <div class="result-item"><div class="label">Monthly Savings</div><div class="value" id="outSavings">₹3,000</div></div>
-        <div class="result-item"><div class="label">Payback Period</div><div class="value" id="outPayback">~2 yrs</div></div>
+        <div class="result-item"><div class="label" data-i18n="calc_out_kw">Recommended System</div><div class="value" id="outKw">2.0 kW</div></div>
+        <div class="result-item"><div class="label" data-i18n="calc_out_cost">Installation Cost</div><div class="value" id="outCost">₹1,30,000</div></div>
+        <div class="result-item highlight"><div class="label" data-i18n="calc_out_subsidy">Govt. Subsidy</div><div class="value" id="outSubsidy">₹60,000</div></div>
+        <div class="result-item"><div class="label" data-i18n="calc_out_net">Cost After Subsidy</div><div class="value" id="outNet">₹70,000</div></div>
+        <div class="result-item"><div class="label" data-i18n="calc_out_savings">Monthly Savings</div><div class="value" id="outSavings">₹3,000</div></div>
+        <div class="result-item"><div class="label" data-i18n="calc_out_payback">Payback Period</div><div class="value" id="outPayback">~2 yrs</div></div>
       </div>
-      <p class="disclaimer">Estimates are indicative, based on standard assumptions (≈120 units/kW/month, ₹65,000/kW installation cost). Actual figures depend on roof area, shading, and site survey. Contact us for an exact quote.</p>
+      <p class="disclaimer" data-i18n="calc_disclaimer">Estimates are indicative, based on standard assumptions (≈120 units/kW/month, ₹65,000/kW installation cost). Actual figures depend on roof area, shading, and site survey. Contact us for an exact quote.</p>
       <br>
-      <button class="btn" id="showLeadFormBtn" style="width:100%;justify-content:center;">Get Exact Quote from Gopal Solar 360</button>
+      <button class="btn" id="showLeadFormBtn" style="width:100%;justify-content:center;" data-i18n="calc_showform_btn">Get Exact Quote from Gopal Solar 360</button>
 
       <div id="leadFormWrap" style="display:none;margin-top:20px;border-top:1px solid #eef2f6;padding-top:20px;">
-        <label for="lName">Name</label>
+        <label for="lName" data-i18n="calc_lname">Name</label>
         <input type="text" id="lName" placeholder="Your name">
-        <label for="lPhone">Phone</label>
+        <label for="lPhone" data-i18n="calc_lphone">Phone</label>
         <input type="text" id="lPhone" placeholder="Your phone number">
-        <label for="lCity">City</label>
+        <label for="lCity" data-i18n="calc_lcity">City</label>
         <input type="text" id="lCity" placeholder="Your city">
-        <button class="btn" id="submitLeadBtn" style="width:100%;justify-content:center;">Send My Details</button>
+        <button class="btn" id="submitLeadBtn" style="width:100%;justify-content:center;" data-i18n="calc_submit_btn">Send My Details</button>
         <p id="leadStatus" style="font-size:.85rem;color:var(--muted);margin-top:10px;"></p>
-        <p style="font-size:.82rem;color:var(--muted);margin-top:6px;">Or <a id="quoteBtn" href="#" style="color:var(--leaf);font-weight:700;">email us directly</a> instead.</p>
+        <p style="font-size:.82rem;color:var(--muted);margin-top:6px;"><span data-i18n="calc_email_alt_pre">Or</span> <a id="quoteBtn" href="#" style="color:var(--leaf);font-weight:700;" data-i18n="calc_email_alt_link">email us directly</a> <span data-i18n="calc_email_alt_post">instead.</span></p>
       </div>
     </div>
   </div>
 </section>
 
 <footer>
-  <p>&copy; 2026 Gopal Solar 360. All rights reserved. &nbsp;|&nbsp; <a href="index.html">Back to Home</a></p>
+  <p><span data-i18n="calc_footer">&copy; 2026 Gopal Solar 360. All rights reserved.</span> &nbsp;|&nbsp; <a href="index.html" data-i18n="calc_footer_back">Back to Home</a></p>
 </footer>
 
 <button id="toTop" aria-label="Back to top">↑</button>
@@ -310,6 +313,7 @@
     });
   });
 </script>
+<script src="assets/i18n.js"></script>
 
 </body>
 </html>

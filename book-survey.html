@@ -24,6 +24,8 @@
   .nav-links a:hover{color:var(--sun);}
   .nav-cta{background:var(--sun);color:var(--navy-dark);padding:10px 20px;border-radius:999px;font-weight:700;font-size:.88rem;}
   .menu-btn{display:none;background:none;border:none;color:#fff;font-size:1.6rem;cursor:pointer;}
+  .lang-toggle{background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff;padding:7px 14px;border-radius:999px;font-size:.82rem;font-weight:700;cursor:pointer;transition:background .2s;}
+  .lang-toggle:hover{background:rgba(255,255,255,.12);}
 
   .breadcrumb{background:#fff;border-bottom:1px solid #e7edf3;font-size:.85rem;color:var(--muted);}
   .breadcrumb .container{padding:12px 24px;}
@@ -67,52 +69,53 @@
   <div class="nav">
     <a href="index.html" class="logo">☀️ Gopal Solar<span class="dot">360</span></a>
     <nav class="nav-links">
-      <a href="index.html#subsidy">Subsidy</a>
-      <a href="calculator.html">Calculator</a>
-      <a href="book-survey.html">Book Survey</a>
-      <a href="index.html#faq">FAQ</a>
-      <a href="index.html#contact" class="nav-cta">Contact</a>
+      <a href="index.html#subsidy" data-i18n="nav_subsidy">Subsidy</a>
+      <a href="calculator.html" data-i18n="nav_calculator">Calculator</a>
+      <a href="book-survey.html" data-i18n="nav_booksurvey">Book Survey</a>
+      <a href="index.html#faq" data-i18n="nav_faq">FAQ</a>
+      <button class="lang-toggle">தமிழ்</button>
+      <a href="index.html#contact" class="nav-cta" data-i18n="nav_contact">Contact</a>
     </nav>
     <button class="menu-btn" aria-label="menu">☰</button>
   </div>
 </header>
 
 <div class="breadcrumb">
-  <div class="container"><a href="index.html">Home</a> / Book Site Survey</div>
+  <div class="container"><a href="index.html" data-i18n="nav_home">Home</a> / <span data-i18n="book_breadcrumb">Book Site Survey</span></div>
 </div>
 
 <div class="page-hero">
   <div class="container">
-    <span class="eyebrow">Reserve Your Slot</span>
-    <h1>Book Your Free Site Survey</h1>
-    <p>Pay a small, fully-adjustable booking advance to reserve a priority site survey slot with our team.</p>
+    <span class="eyebrow" data-i18n="book_eyebrow">Reserve Your Slot</span>
+    <h1 data-i18n="book_h1">Book Your Free Site Survey</h1>
+    <p data-i18n="book_lead">Pay a small, fully-adjustable booking advance to reserve a priority site survey slot with our team.</p>
   </div>
 </div>
 
 <section>
   <div class="container book-wrap">
     <div class="card">
-      <h3>Why a Booking Advance?</h3>
+      <h3 data-i18n="book_why_h3">Why a Booking Advance?</h3>
       <ul>
-        <li>Confirms your slot and moves you to the front of our survey queue.</li>
-        <li>100% adjustable against your final installation invoice — it's not an extra cost.</li>
-        <li>Fully refundable if you decide not to proceed after the survey.</li>
-        <li>Helps our certified engineers plan visits efficiently across your area.</li>
+        <li data-i18n="book_why1">Confirms your slot and moves you to the front of our survey queue.</li>
+        <li data-i18n="book_why2">100% adjustable against your final installation invoice — it's not an extra cost.</li>
+        <li data-i18n="book_why3">Fully refundable if you decide not to proceed after the survey.</li>
+        <li data-i18n="book_why4">Helps our certified engineers plan visits efficiently across your area.</li>
       </ul>
-      <h3 style="margin-top:28px;">What Happens Next</h3>
+      <h3 style="margin-top:28px;" data-i18n="book_next_h3">What Happens Next</h3>
       <ul>
-        <li>You'll get a payment confirmation instantly via Razorpay.</li>
-        <li>Our team calls you within 24 hours to schedule the exact survey date/time.</li>
-        <li>After the survey, we prepare your final proposal — visit our <a href="calculator.html" style="color:var(--leaf);font-weight:700;">calculator</a> for an estimate first.</li>
+        <li data-i18n="book_next1">You'll get a payment confirmation instantly via Razorpay.</li>
+        <li data-i18n="book_next2">Our team calls you within 24 hours to schedule the exact survey date/time.</li>
+        <li><span data-i18n="book_next3_pre">After the survey, we prepare your final proposal — visit our</span> <a href="calculator.html" style="color:var(--leaf);font-weight:700;" data-i18n="book_next3_link">calculator</a> <span data-i18n="book_next3_post">for an estimate first.</span></li>
       </ul>
     </div>
 
     <div class="card">
       <div class="amount-box">
         <div class="amt">₹499</div>
-        <div class="note">Refundable Booking Advance</div>
+        <div class="note" data-i18n="book_amount_note">Refundable Booking Advance</div>
       </div>
-      <h3>Pay Securely via Razorpay</h3>
+      <h3 data-i18n="book_pay_h3">Pay Securely via Razorpay</h3>
       <div class="payment-wrap">
         <!--
           STEP 1: Log in to your Razorpay Dashboard -> Payment Pages/Buttons -> Payment Button
@@ -129,13 +132,13 @@
           </script>
         </form>
       </div>
-      <p class="disclaimer">Payments are processed securely by Razorpay. Gopal Solar 360 does not store your card or banking details. For any payment issue, contact us at info@gopalsolar360.com.</p>
+      <p class="disclaimer" data-i18n="book_disclaimer">Payments are processed securely by Razorpay. Gopal Solar 360 does not store your card or banking details. For any payment issue, contact us at info@gopalsolar360.com.</p>
     </div>
   </div>
 </section>
 
 <footer>
-  <p>&copy; 2026 Gopal Solar 360. All rights reserved. &nbsp;|&nbsp; <a href="index.html">Back to Home</a></p>
+  <p><span data-i18n="book_footer">&copy; 2026 Gopal Solar 360. All rights reserved.</span> &nbsp;|&nbsp; <a href="index.html" data-i18n="book_footer_back">Back to Home</a></p>
 </footer>
 
 <button id="toTop" aria-label="Back to top">↑</button>
@@ -159,6 +162,7 @@
     navLinks.style.borderRadius = '12px';
   });
 </script>
+<script src="assets/i18n.js"></script>
 
 </body>
 </html>
