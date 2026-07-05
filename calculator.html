@@ -155,7 +155,7 @@
       </div>
       <p class="disclaimer">Estimates are indicative, based on standard assumptions (≈120 units/kW/month, ₹65,000/kW installation cost). Actual figures depend on roof area, shading, and site survey. Contact us for an exact quote.</p>
       <br>
-      <a href="index.html#contact" class="btn">Get Exact Quote from Gopal Solar 360</a>
+      <a href="#" id="quoteBtn" class="btn">Get Exact Quote from Gopal Solar 360</a>
     </div>
   </div>
 </section>
@@ -202,6 +202,27 @@
     document.getElementById('outNet').textContent = fmt(net);
     document.getElementById('outSavings').textContent = fmt(monthlySavings);
     document.getElementById('outPayback').textContent = '~' + paybackYears.toFixed(1) + ' yrs';
+
+    const subject = 'Solar Quote Request - ' + kw.toFixed(1) + ' kW ' + (type === 'commercial' ? 'Commercial' : 'Residential') + ' System';
+    const bodyLines = [
+      'Hi Gopal Solar 360,', '',
+      'I used the online calculator and would like an exact quote based on this estimate:', '',
+      'Property Type: ' + (type === 'commercial' ? 'Commercial / Retail' : 'Residential'),
+      'Average Monthly Bill: ' + fmt(bill),
+      'Electricity Rate: Rs.' + tariff + ' / unit',
+      'Recommended System Size: ' + kw.toFixed(1) + ' kW',
+      'Estimated Installation Cost: ' + fmt(cost),
+      'Estimated Subsidy: ' + (subsidy ? fmt(subsidy) : 'N/A (Commercial)'),
+      'Estimated Cost After Subsidy: ' + fmt(net),
+      'Estimated Monthly Savings: ' + fmt(monthlySavings),
+      'Estimated Payback Period: ~' + paybackYears.toFixed(1) + ' years', '',
+      'Please contact me with an exact quote and next steps.', '',
+      'Thanks!'
+    ];
+
+    document.getElementById('quoteBtn').href =
+      'mailto:elang36van@gmail.com?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(bodyLines.join('\r\n'));
   }
 
   billSlider.addEventListener('input', () => {
