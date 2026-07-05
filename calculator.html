@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar Savings &amp; Subsidy Calculator | Gopal Solar 360</title>
+<meta name="description" content="Estimate your rooftop solar system size, PM Surya Ghar subsidy, installation cost, monthly savings, and payback period with Gopal Solar 360's free calculator.">
+<style>
+  :root{
+    --navy:#0b2540;
+    --navy-dark:#071b30;
+    --sun:#ffb703;
+    --sun-dark:#f08c00;
+    --leaf:#2e8b57;
+    --ink:#1a2733;
+    --muted:#5c6b7a;
+    --bg:#f6f9fc;
+    --card:#ffffff;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Segoe UI',Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;}
+  a{text-decoration:none;color:inherit;}
+  .container{max-width:1160px;margin:0 auto;padding:0 24px;}
+  section{padding:60px 0;}
+
+  header{position:sticky;top:0;z-index:100;background:rgba(11,37,64,0.97);backdrop-filter:blur(6px);}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;max-width:1160px;margin:0 auto;}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.25rem;color:#fff;letter-spacing:.3px;}
+  .logo .dot{color:var(--sun);}
+  .nav-links{display:flex;gap:26px;align-items:center;}
+  .nav-links a{color:#dce6f0;font-weight:500;font-size:.92rem;transition:color .2s;}
+  .nav-links a:hover{color:var(--sun);}
+  .nav-cta{background:var(--sun);color:var(--navy-dark);padding:10px 20px;border-radius:999px;font-weight:700;font-size:.88rem;box-shadow:0 4px 14px rgba(255,183,3,.35);transition:transform .2s;}
+  .nav-cta:hover{transform:translateY(-2px);}
+  .menu-btn{display:none;background:none;border:none;color:#fff;font-size:1.6rem;cursor:pointer;}
+
+  .page-hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 100%);color:#fff;padding:56px 0;text-align:center;}
+  .page-hero .eyebrow{color:var(--sun);font-weight:800;letter-spacing:1.2px;font-size:.8rem;text-transform:uppercase;margin-bottom:10px;display:block;}
+  .page-hero h1{font-size:2.2rem;font-weight:800;margin-bottom:12px;}
+  .page-hero p{color:#c3d2e0;max-width:560px;margin:0 auto;}
+
+  .breadcrumb{background:#fff;border-bottom:1px solid #e7edf3;font-size:.85rem;color:var(--muted);}
+  .breadcrumb .container{padding:12px 24px;}
+  .breadcrumb a{color:var(--leaf);font-weight:600;}
+
+  .calc-wrap{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start;}
+  .calc-card{background:var(--card);border-radius:var(--radius);padding:32px;box-shadow:0 4px 24px rgba(11,37,64,.08);border:1px solid #eef2f6;}
+  .calc-card h3{color:var(--navy);font-size:1.15rem;margin-bottom:20px;font-weight:700;}
+  label{display:block;font-size:.9rem;font-weight:600;color:var(--navy);margin-bottom:8px;}
+  input[type=number], select{
+    width:100%;padding:12px 14px;border:1px solid #d7e0e8;border-radius:10px;font-size:1rem;margin-bottom:20px;
+    background:#fbfdff;color:var(--ink);
+  }
+  input[type=range]{width:100%;margin-bottom:8px;accent-color:var(--sun-dark);}
+  .range-val{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);margin-bottom:20px;}
+  .btn{
+    padding:14px 26px;border-radius:10px;font-weight:700;font-size:.95rem;
+    display:inline-flex;align-items:center;gap:8px;transition:all .2s;border:2px solid transparent;cursor:pointer;
+    background:var(--sun);color:var(--navy-dark);box-shadow:0 8px 20px rgba(255,183,3,.3);width:100%;justify-content:center;
+  }
+  .btn:hover{background:var(--sun-dark);transform:translateY(-2px);}
+
+  .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+  .result-item{background:#f6f9fc;border-radius:12px;padding:18px;text-align:center;border:1px solid #eef2f6;}
+  .result-item .label{font-size:.78rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;}
+  .result-item .value{font-size:1.3rem;font-weight:800;color:var(--navy);}
+  .result-item.highlight{background:linear-gradient(135deg,var(--leaf),#1f6b45);}
+  .result-item.highlight .label{color:#dff2e6;}
+  .result-item.highlight .value{color:#fff;}
+  .disclaimer{font-size:.8rem;color:var(--muted);margin-top:10px;}
+
+  footer{background:var(--navy-dark);color:#c3d2e0;padding:32px 0;text-align:center;font-size:.85rem;}
+  footer a{color:var(--sun);font-weight:600;}
+
+  #toTop{position:fixed;bottom:26px;right:26px;width:46px;height:46px;border-radius:50%;background:var(--sun);color:var(--navy-dark);border:none;font-size:1.2rem;font-weight:800;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:200;}
+
+  @media(max-width:800px){
+    .calc-wrap{grid-template-columns:1fr;}
+    .result-grid{grid-template-columns:1fr;}
+  }
+  @media(max-width:640px){
+    .nav-links{display:none;}
+    .menu-btn{display:block;}
+    .page-hero h1{font-size:1.7rem;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="index.html" class="logo">☀️ Gopal Solar<span class="dot">360</span></a>
+    <nav class="nav-links">
+      <a href="index.html#subsidy">Subsidy</a>
+      <a href="index.html#benefits">Benefits</a>
+      <a href="calculator.html">Calculator</a>
+      <a href="index.html#faq">FAQ</a>
+      <a href="index.html#contact" class="nav-cta">Check Eligibility</a>
+    </nav>
+    <button class="menu-btn" aria-label="menu">☰</button>
+  </div>
+</header>
+
+<div class="breadcrumb">
+  <div class="container">
+    <a href="index.html">Home</a> / Calculator
+  </div>
+</div>
+
+<div class="page-hero">
+  <div class="container">
+    <span class="eyebrow">Free Tool</span>
+    <h1>Solar Savings &amp; Subsidy Calculator</h1>
+    <p>Enter your average monthly electricity bill to estimate your ideal system size, PM Surya Ghar subsidy, installation cost, and payback period.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container calc-wrap">
+    <div class="calc-card">
+      <h3>Your Details</h3>
+      <label for="bill">Average Monthly Electricity Bill (₹)</label>
+      <input type="range" id="bill" min="500" max="15000" step="100" value="3000">
+      <div class="range-val"><span>₹500</span><span id="billVal">₹3,000</span><span>₹15,000</span></div>
+
+      <label for="tariff">Electricity Rate (₹ per unit)</label>
+      <select id="tariff">
+        <option value="6">₹6 / unit</option>
+        <option value="7">₹7 / unit</option>
+        <option value="8" selected>₹8 / unit</option>
+        <option value="9">₹9 / unit</option>
+        <option value="10">₹10 / unit</option>
+      </select>
+
+      <label for="type">Property Type</label>
+      <select id="type">
+        <option value="residential">Residential</option>
+        <option value="commercial">Commercial / Retail</option>
+      </select>
+
+      <button class="btn" onclick="calculate()">Calculate My Savings</button>
+    </div>
+
+    <div class="calc-card">
+      <h3>Your Estimate</h3>
+      <div class="result-grid">
+        <div class="result-item"><div class="label">Recommended System</div><div class="value" id="outKw">2.0 kW</div></div>
+        <div class="result-item"><div class="label">Installation Cost</div><div class="value" id="outCost">₹1,30,000</div></div>
+        <div class="result-item highlight"><div class="label">Govt. Subsidy</div><div class="value" id="outSubsidy">₹60,000</div></div>
+        <div class="result-item"><div class="label">Cost After Subsidy</div><div class="value" id="outNet">₹70,000</div></div>
+        <div class="result-item"><div class="label">Monthly Savings</div><div class="value" id="outSavings">₹3,000</div></div>
+        <div class="result-item"><div class="label">Payback Period</div><div class="value" id="outPayback">~2 yrs</div></div>
+      </div>
+      <p class="disclaimer">Estimates are indicative, based on standard assumptions (≈120 units/kW/month, ₹65,000/kW installation cost). Actual figures depend on roof area, shading, and site survey. Contact us for an exact quote.</p>
+      <br>
+      <a href="index.html#contact" class="btn">Get Exact Quote from Gopal Solar 360</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Gopal Solar 360. All rights reserved. &nbsp;|&nbsp; <a href="index.html">Back to Home</a></p>
+</footer>
+
+<button id="toTop" aria-label="Back to top">↑</button>
+
+<script>
+  const billSlider = document.getElementById('bill');
+  const billVal = document.getElementById('billVal');
+  const COST_PER_KW = 65000;
+  const UNITS_PER_KW_MONTH = 120;
+
+  function fmt(n){ return '₹' + Math.round(n).toLocaleString('en-IN'); }
+
+  function subsidyFor(kw){
+    if (kw >= 3) return 78000;
+    if (kw >= 2) return 60000;
+    if (kw >= 1) return 30000;
+    return Math.round(30000 * kw);
+  }
+
+  function calculate(){
+    const bill = Number(billSlider.value);
+    const tariff = Number(document.getElementById('tariff').value);
+    const type = document.getElementById('type').value;
+
+    let kw = bill / (UNITS_PER_KW_MONTH * tariff);
+    kw = Math.max(1, Math.round(kw * 2) / 2);
+    if (type === 'commercial') kw = Math.round(kw * 1.3 * 2) / 2;
+
+    const cost = kw * COST_PER_KW;
+    const subsidy = type === 'commercial' ? 0 : subsidyFor(kw);
+    const net = cost - subsidy;
+    const monthlySavings = kw * UNITS_PER_KW_MONTH * tariff;
+    const paybackYears = net / (monthlySavings * 12);
+
+    document.getElementById('outKw').textContent = kw.toFixed(1) + ' kW';
+    document.getElementById('outCost').textContent = fmt(cost);
+    document.getElementById('outSubsidy').textContent = subsidy ? fmt(subsidy) : 'N/A (Commercial)';
+    document.getElementById('outNet').textContent = fmt(net);
+    document.getElementById('outSavings').textContent = fmt(monthlySavings);
+    document.getElementById('outPayback').textContent = '~' + paybackYears.toFixed(1) + ' yrs';
+  }
+
+  billSlider.addEventListener('input', () => {
+    billVal.textContent = fmt(Number(billSlider.value));
+  });
+
+  calculate();
+
+  const toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', () => {
+    toTop.style.display = window.scrollY > 400 ? 'flex' : 'none';
+  });
+  toTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+  const menuBtn = document.querySelector('.menu-btn');
+  const navLinks = document.querySelector('.nav-links');
+  menuBtn.addEventListener('click', () => {
+    const open = navLinks.style.display === 'flex';
+    navLinks.style.display = open ? 'none' : 'flex';
+    navLinks.style.flexDirection = 'column';
+    navLinks.style.position = 'absolute';
+    navLinks.style.top = '64px';
+    navLinks.style.right = '20px';
+    navLinks.style.background = '#0b2540';
+    navLinks.style.padding = '20px';
+    navLinks.style.borderRadius = '12px';
+  });
+</script>
+
+</body>
+</html>
