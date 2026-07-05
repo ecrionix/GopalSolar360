@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposal | Gopal Solar 360</title>
+<style>
+  :root{--navy:#0b2540;--sun:#ffb703;--leaf:#2e8b57;--ink:#1a2733;--muted:#5c6b7a;--bg:#f6f9fc;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg);padding:32px;}
+  .toolbar{max-width:800px;margin:0 auto 20px;display:flex;justify-content:space-between;align-items:center;}
+  .toolbar a{color:var(--navy);font-weight:700;font-size:.9rem;}
+  .btn{padding:11px 22px;border-radius:9px;font-weight:700;font-size:.9rem;cursor:pointer;border:2px solid transparent;background:var(--sun);color:var(--navy);}
+  .sheet{max-width:800px;margin:0 auto;background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(11,37,64,.1);padding:48px;}
+  .sheet-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid var(--sun);padding-bottom:20px;margin-bottom:28px;}
+  .brand{font-weight:800;font-size:1.4rem;color:var(--navy);}
+  .brand span{color:var(--sun);}
+  .meta{text-align:right;font-size:.85rem;color:var(--muted);}
+  h2{color:var(--navy);font-size:1.2rem;margin:24px 0 12px;}
+  table{width:100%;border-collapse:collapse;margin-bottom:8px;}
+  td,th{padding:10px 8px;border-bottom:1px solid #eef2f6;font-size:.92rem;text-align:left;}
+  td.amt{font-weight:800;text-align:right;}
+  .highlight{color:var(--leaf);}
+  .terms{font-size:.8rem;color:var(--muted);margin-top:24px;line-height:1.6;}
+  .edit-row{display:flex;gap:10px;margin-bottom:10px;}
+  .edit-row input{flex:1;padding:8px 10px;border:1px solid #d7e0e8;border-radius:8px;}
+  @media print{
+    .toolbar,.edit-panel{display:none;}
+    body{background:#fff;padding:0;}
+    .sheet{box-shadow:none;border-radius:0;}
+  }
+</style>
+</head>
+<body>
+  <div class="toolbar">
+    <a href="#" id="backLink">&larr; Back to Lead</a>
+    <div>
+      <button class="btn" id="saveBtn">Save Proposal</button>
+      <button class="btn" onclick="window.print()">Print / Save as PDF</button>
+    </div>
+  </div>
+
+  <div class="card edit-panel" style="max-width:800px;margin:0 auto 20px;background:#fff;border-radius:12px;padding:20px;">
+    <div class="edit-row">
+      <div><label style="font-size:.8rem;font-weight:700;">System Size (kW)</label><input type="number" step="0.1" id="eKw"></div>
+      <div><label style="font-size:.8rem;font-weight:700;">Cost (₹)</label><input type="number" id="eCost"></div>
+      <div><label style="font-size:.8rem;font-weight:700;">Subsidy (₹)</label><input type="number" id="eSubsidy"></div>
+      <div><label style="font-size:.8rem;font-weight:700;">Monthly Savings (₹)</label><input type="number" id="eSavings"></div>
+    </div>
+    <button class="btn" id="recalcBtn">Update Proposal</button>
+  </div>
+
+  <div class="sheet" id="sheet">
+    <div class="sheet-header">
+      <div class="brand">☀️ Gopal Solar<span>360</span></div>
+      <div class="meta">
+        Proposal Date: <span id="pDate"></span><br>
+        Valid Until: <span id="pValid"></span>
+      </div>
+    </div>
+
+    <h2>Prepared For</h2>
+    <table>
+      <tr><td>Name</td><td id="cName"></td></tr>
+      <tr><td>Phone</td><td id="cPhone"></td></tr>
+      <tr><td>City</td><td id="cCity"></td></tr>
+      <tr><td>Property Type</td><td id="cType"></td></tr>
+    </table>
+
+    <h2>System Specification &amp; Pricing</h2>
+    <table>
+      <tr><td>Recommended System Size</td><td class="amt" id="oKw"></td></tr>
+      <tr><td>Installation Cost</td><td class="amt" id="oCost"></td></tr>
+      <tr><td>PM Surya Ghar Subsidy</td><td class="amt highlight" id="oSubsidy"></td></tr>
+      <tr><th>Net Cost After Subsidy</th><th class="amt" id="oNet"></th></tr>
+      <tr><td>Estimated Monthly Savings</td><td class="amt" id="oSavings"></td></tr>
+      <tr><td>Estimated Payback Period</td><td class="amt" id="oPayback"></td></tr>
+    </table>
+
+    <p class="terms">
+      This proposal is indicative and valid for 30 days from the date issued above. Final pricing may vary based on
+      site survey, roof condition, and equipment availability. Subsidy amounts are as per PM Surya Ghar Muft Bijli
+      Yojana guidelines and subject to government approval timelines. Gopal Solar 360 will confirm exact specifications
+      after a free on-site survey.
+    </p>
+  </div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const leadId = params.get('id');
+  document.getElementById('backLink').href = 'lead.html?id=' + leadId;
+
+  function fmt(n){ return '₹' + Math.round(n||0).toLocaleString('en-IN'); }
+
+  let lead = {};
+  auth.onAuthStateChanged(user => {
+    if (!user) { window.location.href = 'login.html'; return; }
+    if (!leadId) { window.location.href = 'dashboard.html'; return; }
+    db.collection('leads').doc(leadId).get().then(doc => {
+      if (!doc.exists) { alert('Lead not found'); window.location.href = 'dashboard.html'; return; }
+      lead = doc.data();
+      document.getElementById('cName').textContent = lead.name || '-';
+      document.getElementById('cPhone').textContent = lead.phone || '-';
+      document.getElementById('cCity').textContent = lead.city || '-';
+      document.getElementById('cType').textContent = lead.propertyType === 'commercial' ? 'Commercial / Retail' : 'Residential';
+
+      document.getElementById('eKw').value = lead.systemSizeKw || 2;
+      document.getElementById('eCost').value = lead.cost || (lead.systemSizeKw||2) * 65000;
+      document.getElementById('eSubsidy').value = lead.subsidy || 60000;
+      document.getElementById('eSavings').value = lead.monthlySavings || 3000;
+
+      const today = new Date();
+      const valid = new Date(today); valid.setDate(valid.getDate() + 30);
+      document.getElementById('pDate').textContent = today.toLocaleDateString('en-IN');
+      document.getElementById('pValid').textContent = valid.toLocaleDateString('en-IN');
+
+      renderProposal();
+    });
+  });
+
+  function renderProposal(){
+    const kw = Number(document.getElementById('eKw').value) || 0;
+    const cost = Number(document.getElementById('eCost').value) || 0;
+    const subsidy = Number(document.getElementById('eSubsidy').value) || 0;
+    const savings = Number(document.getElementById('eSavings').value) || 0;
+    const net = cost - subsidy;
+    const payback = savings > 0 ? (net / (savings * 12)).toFixed(1) : '-';
+
+    document.getElementById('oKw').textContent = kw.toFixed(1) + ' kW';
+    document.getElementById('oCost').textContent = fmt(cost);
+    document.getElementById('oSubsidy').textContent = fmt(subsidy);
+    document.getElementById('oNet').textContent = fmt(net);
+    document.getElementById('oSavings').textContent = fmt(savings);
+    document.getElementById('oPayback').textContent = '~' + payback + ' years';
+  }
+
+  document.getElementById('recalcBtn').addEventListener('click', renderProposal);
+
+  document.getElementById('saveBtn').addEventListener('click', () => {
+    const kw = Number(document.getElementById('eKw').value) || 0;
+    const cost = Number(document.getElementById('eCost').value) || 0;
+    const subsidy = Number(document.getElementById('eSubsidy').value) || 0;
+    const savings = Number(document.getElementById('eSavings').value) || 0;
+    db.collection('proposals').add({
+      leadId, leadName: lead.name || '',
+      systemSizeKw: kw, cost, subsidy, netCost: cost - subsidy, monthlySavings: savings,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+      db.collection('leads').doc(leadId).update({ stage: 'Quote Sent' });
+      alert('Proposal saved and lead stage updated to "Quote Sent".');
+    });
+  });
+</script>
+</body>
+</html>

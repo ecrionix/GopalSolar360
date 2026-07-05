@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Site Survey | Gopal Solar 360 CRM</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="crm-layout">
+  <aside class="sidebar">
+    <div class="logo">☀️ Gopal Solar<span class="dot">360</span></div>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="dashboard.html#leads" class="active">Leads</a>
+      <a href="tasks.html">Tasks / O&amp;M</a>
+      <a href="../index.html" target="_blank">View Website</a>
+    </nav>
+    <button class="logout" id="logoutBtn">Sign Out</button>
+  </aside>
+
+  <main class="main">
+    <h1>Site Survey</h1>
+    <p class="subtitle" id="leadMeta"></p>
+
+    <div class="card">
+      <h3>New Survey</h3>
+      <div class="row">
+        <div><label>Roof Type</label>
+          <select id="sRoofType"><option>RCC</option><option>Metal Sheet</option><option>Tiled</option><option>Other</option></select>
+        </div>
+        <div><label>Roof Area (sq.ft)</label><input type="number" id="sArea"></div>
+        <div><label>Roof Direction</label>
+          <select id="sDir"><option>South</option><option>South-East</option><option>South-West</option><option>East</option><option>West</option><option>North</option></select>
+        </div>
+      </div>
+      <div class="row">
+        <div><label>Structure Type</label>
+          <select id="sStructure"><option>Elevated (Tin Shed style)</option><option>Ground Mounted</option><option>Flush Mount</option></select>
+        </div>
+        <div><label>Shading Issues?</label>
+          <select id="sShading"><option>No</option><option>Yes</option></select>
+        </div>
+        <div><label>Survey Date</label><input type="date" id="sDate"></div>
+      </div>
+      <label>Surveyor Notes</label>
+      <textarea id="sNotes" placeholder="Any obstructions, structural concerns, access notes..."></textarea>
+      <button class="btn" id="saveSurveyBtn">Save Survey</button>
+    </div>
+
+    <div class="card">
+      <h3>Previous Surveys</h3>
+      <div id="surveyList"><p style="color:var(--muted);font-size:.88rem;">No surveys yet.</p></div>
+    </div>
+  </main>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const leadId = params.get('id');
+
+  auth.onAuthStateChanged(user => {
+    if (!user) { window.location.href = 'login.html'; return; }
+    if (!leadId) { window.location.href = 'dashboard.html'; return; }
+    db.collection('leads').doc(leadId).get().then(doc => {
+      const l = doc.data() || {};
+      document.getElementById('leadMeta').textContent = 'For: ' + (l.name || 'Unknown Lead') + ' · ' + (l.city || '');
+    });
+    loadSurveys();
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', () => auth.signOut());
+
+  function loadSurveys(){
+    db.collection('surveys').where('leadId','==',leadId).get().then(snap => {
+      const list = document.getElementById('surveyList');
+      if (snap.empty){ list.innerHTML = '<p style="color:var(--muted);font-size:.88rem;">No surveys yet.</p>'; return; }
+      const rows = [];
+      snap.forEach(doc => {
+        const s = doc.data();
+        rows.push(
+          '<div style="border-bottom:1px solid #eef2f6;padding:12px 0;font-size:.88rem;">' +
+          '<strong>' + (s.surveyDate||'-') + '</strong> · ' + s.roofType + ' · ' + s.area + ' sq.ft · Direction: ' + s.direction +
+          '<br>Structure: ' + s.structure + ' · Shading: ' + s.shading +
+          (s.notes ? '<br>Notes: ' + s.notes : '') +
+          '</div>'
+        );
+      });
+      list.innerHTML = rows.join('');
+    });
+  }
+
+  document.getElementById('saveSurveyBtn').addEventListener('click', () => {
+    db.collection('surveys').add({
+      leadId,
+      roofType: document.getElementById('sRoofType').value,
+      area: document.getElementById('sArea').value,
+      direction: document.getElementById('sDir').value,
+      structure: document.getElementById('sStructure').value,
+      shading: document.getElementById('sShading').value,
+      surveyDate: document.getElementById('sDate').value,
+      notes: document.getElementById('sNotes').value.trim(),
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+      db.collection('leads').doc(leadId).update({ stage: 'Site Survey Scheduled' });
+      document.getElementById('sArea').value = '';
+      document.getElementById('sNotes').value = '';
+      loadSurveys();
+      alert('Survey saved.');
+    });
+  });
+</script>
+</body>
+</html>

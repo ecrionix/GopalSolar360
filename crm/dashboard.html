@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard | Gopal Solar 360 CRM</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="crm-layout">
+  <aside class="sidebar">
+    <div class="logo">☀️ Gopal Solar<span class="dot">360</span></div>
+    <nav>
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="dashboard.html#leads">Leads</a>
+      <a href="tasks.html">Tasks / O&amp;M</a>
+      <a href="../index.html" target="_blank">View Website</a>
+    </nav>
+    <button class="logout" id="logoutBtn">Sign Out</button>
+  </aside>
+
+  <main class="main">
+    <h1>Dashboard</h1>
+    <p class="subtitle">Overview of all solar leads and their PM Surya Ghar pipeline stage.</p>
+
+    <div class="stat-row" id="statRow"></div>
+
+    <div class="card" id="leads">
+      <h3>Add Lead Manually</h3>
+      <div class="row">
+        <div><label>Name</label><input type="text" id="nName"></div>
+        <div><label>Phone</label><input type="tel" id="nPhone"></div>
+        <div><label>Email</label><input type="email" id="nEmail"></div>
+      </div>
+      <div class="row">
+        <div><label>City</label><input type="text" id="nCity"></div>
+        <div><label>Property Type</label>
+          <select id="nType"><option value="residential">Residential</option><option value="commercial">Commercial</option></select>
+        </div>
+        <div><label>Monthly Bill (₹)</label><input type="number" id="nBill"></div>
+      </div>
+      <button class="btn" id="addLeadBtn">Add Lead</button>
+    </div>
+
+    <div class="card">
+      <h3>All Leads</h3>
+      <div class="row" style="margin-bottom:16px;">
+        <div>
+          <label>Filter by Stage</label>
+          <select id="stageFilter">
+            <option value="">All Stages</option>
+          </select>
+        </div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Phone</th><th>Type</th><th>System</th><th>Stage</th><th>Added</th><th></th></tr>
+          </thead>
+          <tbody id="leadsBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+  const STAGES = ['New Lead','Eligibility Checked','Site Survey Scheduled','Quote Sent','Documents Submitted','Installation Scheduled','Installed','Subsidy Received','Closed Won','Closed Lost'];
+
+  auth.onAuthStateChanged(user => {
+    if (!user) { window.location.href = 'login.html'; return; }
+    loadLeads();
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', () => auth.signOut());
+
+  const stageFilter = document.getElementById('stageFilter');
+  STAGES.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s; opt.textContent = s;
+    stageFilter.appendChild(opt);
+  });
+  stageFilter.addEventListener('change', loadLeads);
+
+  function fmt(n){ return '₹' + Math.round(n||0).toLocaleString('en-IN'); }
+
+  function loadLeads(){
+    db.collection('leads').orderBy('createdAt','desc').get().then(snap => {
+      const leads = [];
+      snap.forEach(doc => leads.push({ id: doc.id, ...doc.data() }));
+      renderStats(leads);
+      renderTable(leads);
+    });
+  }
+
+  function renderStats(leads){
+    const counts = {};
+    leads.forEach(l => { counts[l.stage || 'New Lead'] = (counts[l.stage || 'New Lead']||0) + 1; });
+    const statRow = document.getElementById('statRow');
+    statRow.innerHTML = '';
+    const total = document.createElement('div');
+    total.className = 'stat-card';
+    total.innerHTML = '<div class="num">' + leads.length + '</div><div class="lbl">Total Leads</div>';
+    statRow.appendChild(total);
+    ['New Lead','Quote Sent','Installed','Subsidy Received'].forEach(s => {
+      const c = document.createElement('div');
+      c.className = 'stat-card';
+      c.innerHTML = '<div class="num">' + (counts[s]||0) + '</div><div class="lbl">' + s + '</div>';
+      statRow.appendChild(c);
+    });
+  }
+
+  function renderTable(leads){
+    const filter = stageFilter.value;
+    const body = document.getElementById('leadsBody');
+    body.innerHTML = '';
+    leads.filter(l => !filter || l.stage === filter).forEach(l => {
+      const tr = document.createElement('tr');
+      const created = l.createdAt && l.createdAt.toDate ? l.createdAt.toDate().toLocaleDateString('en-IN') : '-';
+      tr.innerHTML =
+        '<td>' + (l.name||'-') + '</td>' +
+        '<td>' + (l.phone||'-') + '</td>' +
+        '<td>' + (l.propertyType||'-') + '</td>' +
+        '<td>' + (l.systemSizeKw ? l.systemSizeKw + ' kW' : '-') + '</td>' +
+        '<td><span class="badge ' + (!l.stage || l.stage === 'New Lead' ? 'new' : '') + '">' + (l.stage||'New Lead') + '</span></td>' +
+        '<td>' + created + '</td>' +
+        '<td><a href="lead.html?id=' + l.id + '" class="btn small secondary">View</a></td>';
+      body.appendChild(tr);
+    });
+    if (!body.children.length){
+      body.innerHTML = '<tr><td colspan="7" style="color:var(--muted);text-align:center;padding:24px;">No leads yet.</td></tr>';
+    }
+  }
+
+  document.getElementById('addLeadBtn').addEventListener('click', () => {
+    const name = document.getElementById('nName').value.trim();
+    if (!name) { alert('Name is required'); return; }
+    db.collection('leads').add({
+      name,
+      phone: document.getElementById('nPhone').value.trim(),
+      email: document.getElementById('nEmail').value.trim(),
+      city: document.getElementById('nCity').value.trim(),
+      propertyType: document.getElementById('nType').value,
+      monthlyBill: Number(document.getElementById('nBill').value) || 0,
+      stage: 'New Lead',
+      source: 'Manual (CRM)',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+      ['nName','nPhone','nEmail','nCity','nBill'].forEach(id => document.getElementById(id).value = '');
+      loadLeads();
+    });
+  });
+</script>
+</body>
+</html>

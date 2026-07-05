@@ -155,7 +155,19 @@
       </div>
       <p class="disclaimer">Estimates are indicative, based on standard assumptions (≈120 units/kW/month, ₹65,000/kW installation cost). Actual figures depend on roof area, shading, and site survey. Contact us for an exact quote.</p>
       <br>
-      <a href="#" id="quoteBtn" class="btn">Get Exact Quote from Gopal Solar 360</a>
+      <button class="btn" id="showLeadFormBtn" style="width:100%;justify-content:center;">Get Exact Quote from Gopal Solar 360</button>
+
+      <div id="leadFormWrap" style="display:none;margin-top:20px;border-top:1px solid #eef2f6;padding-top:20px;">
+        <label for="lName">Name</label>
+        <input type="text" id="lName" placeholder="Your name">
+        <label for="lPhone">Phone</label>
+        <input type="text" id="lPhone" placeholder="Your phone number">
+        <label for="lCity">City</label>
+        <input type="text" id="lCity" placeholder="Your city">
+        <button class="btn" id="submitLeadBtn" style="width:100%;justify-content:center;">Send My Details</button>
+        <p id="leadStatus" style="font-size:.85rem;color:var(--muted);margin-top:10px;"></p>
+        <p style="font-size:.82rem;color:var(--muted);margin-top:6px;">Or <a id="quoteBtn" href="#" style="color:var(--leaf);font-weight:700;">email us directly</a> instead.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -166,11 +178,16 @@
 
 <button id="toTop" aria-label="Back to top">↑</button>
 
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="crm/firebase-config.js"></script>
 <script>
   const billSlider = document.getElementById('bill');
   const billVal = document.getElementById('billVal');
   const COST_PER_KW = 65000;
   const UNITS_PER_KW_MONTH = 120;
+  let last = {};
 
   function fmt(n){ return '₹' + Math.round(n).toLocaleString('en-IN'); }
 
@@ -223,6 +240,8 @@
     document.getElementById('quoteBtn').href =
       'mailto:elang36van@gmail.com?subject=' + encodeURIComponent(subject) +
       '&body=' + encodeURIComponent(bodyLines.join('\r\n'));
+
+    last = { bill, tariff, type, kw, cost, subsidy, net, monthlySavings, paybackYears };
   }
 
   billSlider.addEventListener('input', () => {
@@ -249,6 +268,45 @@
     navLinks.style.background = '#0b2540';
     navLinks.style.padding = '20px';
     navLinks.style.borderRadius = '12px';
+  });
+
+  document.getElementById('showLeadFormBtn').addEventListener('click', () => {
+    document.getElementById('leadFormWrap').style.display = 'block';
+  });
+
+  document.getElementById('submitLeadBtn').addEventListener('click', () => {
+    const name = document.getElementById('lName').value.trim();
+    const phone = document.getElementById('lPhone').value.trim();
+    const city = document.getElementById('lCity').value.trim();
+    const statusEl = document.getElementById('leadStatus');
+
+    if (!name || !phone) {
+      statusEl.textContent = 'Please enter your name and phone number.';
+      statusEl.style.color = 'var(--sun-dark)';
+      return;
+    }
+
+    db.collection('leads').add({
+      name, phone, city,
+      propertyType: last.type || 'residential',
+      monthlyBill: last.bill || 0,
+      systemSizeKw: last.kw || 0,
+      cost: last.cost || 0,
+      subsidy: last.subsidy || 0,
+      monthlySavings: last.monthlySavings || 0,
+      stage: 'New Lead',
+      source: 'Calculator',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+      statusEl.textContent = 'Thanks! We\'ve received your details and will contact you shortly.';
+      statusEl.style.color = 'var(--leaf)';
+      document.getElementById('lName').value = '';
+      document.getElementById('lPhone').value = '';
+      document.getElementById('lCity').value = '';
+    }).catch(() => {
+      statusEl.textContent = 'Something went wrong. Please use the email option below instead.';
+      statusEl.style.color = 'var(--sun-dark)';
+    });
   });
 </script>
 

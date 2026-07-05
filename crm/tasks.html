@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tasks &amp; O&amp;M | Gopal Solar 360 CRM</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="crm-layout">
+  <aside class="sidebar">
+    <div class="logo">☀️ Gopal Solar<span class="dot">360</span></div>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="dashboard.html#leads">Leads</a>
+      <a href="tasks.html" class="active">Tasks / O&amp;M</a>
+      <a href="../index.html" target="_blank">View Website</a>
+    </nav>
+    <button class="logout" id="logoutBtn">Sign Out</button>
+  </aside>
+
+  <main class="main">
+    <h1>Tasks &amp; O&amp;M Reminders</h1>
+    <p class="subtitle">Follow-ups, subsidy chasing, and maintenance reminders across all leads.</p>
+
+    <div class="card">
+      <h3>Add Task</h3>
+      <div class="row">
+        <div><label>Description</label><input type="text" id="tDesc" placeholder="e.g. Follow up on subsidy status"></div>
+        <div><label>Due Date</label><input type="date" id="tDue"></div>
+        <div><label>Linked Lead (optional)</label><select id="tLead"><option value="">-- None --</option></select></div>
+      </div>
+      <button class="btn" id="addTaskBtn">Add Task</button>
+    </div>
+
+    <div class="card">
+      <h3>All Tasks</h3>
+      <table>
+        <thead><tr><th>Description</th><th>Due Date</th><th>Lead</th><th>Status</th><th></th></tr></thead>
+        <tbody id="taskBody"></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+  auth.onAuthStateChanged(user => {
+    if (!user) { window.location.href = 'login.html'; return; }
+    loadLeadOptions();
+    loadTasks();
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', () => auth.signOut());
+
+  function loadLeadOptions(){
+    db.collection('leads').orderBy('name').get().then(snap => {
+      const sel = document.getElementById('tLead');
+      snap.forEach(doc => {
+        const l = doc.data();
+        const opt = document.createElement('option');
+        opt.value = doc.id; opt.textContent = l.name || '(unnamed)';
+        sel.appendChild(opt);
+      });
+    });
+  }
+
+  function loadTasks(){
+    db.collection('tasks').get().then(snap => {
+      const tasks = [];
+      snap.forEach(doc => tasks.push({ id: doc.id, ...doc.data() }));
+      tasks.sort((a,b) => (a.dueDate||'').localeCompare(b.dueDate||''));
+      renderTasks(tasks);
+    });
+  }
+
+  function renderTasks(tasks){
+    const body = document.getElementById('taskBody');
+    body.innerHTML = '';
+    const today = new Date().toISOString().slice(0,10);
+    tasks.forEach(t => {
+      const overdue = t.status !== 'done' && t.dueDate && t.dueDate < today;
+      const tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td>' + t.description + '</td>' +
+        '<td>' + (t.dueDate||'-') + '</td>' +
+        '<td>' + (t.leadId ? '<a href="lead.html?id=' + t.leadId + '">' + (t.leadName||'View') + '</a>' : '-') + '</td>' +
+        '<td><span class="badge ' + (t.status === 'done' ? '' : overdue ? 'overdue' : 'new') + '">' + (t.status === 'done' ? 'Done' : overdue ? 'Overdue' : 'Pending') + '</span></td>' +
+        '<td>' + (t.status === 'done' ? '' : '<button class="btn small secondary" data-id="' + t.id + '">Mark Done</button>') + '</td>';
+      body.appendChild(tr);
+    });
+    if (!body.children.length){
+      body.innerHTML = '<tr><td colspan="5" style="color:var(--muted);text-align:center;padding:24px;">No tasks yet.</td></tr>';
+    }
+    body.querySelectorAll('button[data-id]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        db.collection('tasks').doc(btn.dataset.id).update({ status: 'done' }).then(loadTasks);
+      });
+    });
+  }
+
+  document.getElementById('addTaskBtn').addEventListener('click', () => {
+    const desc = document.getElementById('tDesc').value.trim();
+    const due = document.getElementById('tDue').value;
+    const leadSel = document.getElementById('tLead');
+    if (!desc || !due) { alert('Description and due date required'); return; }
+    db.collection('tasks').add({
+      description: desc,
+      dueDate: due,
+      leadId: leadSel.value || null,
+      leadName: leadSel.value ? leadSel.options[leadSel.selectedIndex].textContent : null,
+      status: 'pending',
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+      document.getElementById('tDesc').value = '';
+      document.getElementById('tDue').value = '';
+      leadSel.value = '';
+      loadTasks();
+    });
+  });
+</script>
+</body>
+</html>
